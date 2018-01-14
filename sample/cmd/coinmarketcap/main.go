@@ -14,8 +14,6 @@
 
 package main
 
-import "sample/cmd/coinmarketcap/cmd"
-
 func main() {
-	cmd.Execute()
+	Execute()
 }
