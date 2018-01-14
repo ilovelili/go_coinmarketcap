@@ -1,2 +1,17 @@
 ---
-# TBD
+language: go
+sudo: false
+go:
+  - 1.8
+  - 1.9.x
+  - master
+  - tip
+os:
+  - linux
+  - osx
+script:
+  - make build
+  - make test
+branches:
+  only:
+    - master
