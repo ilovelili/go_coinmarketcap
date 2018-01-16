@@ -105,7 +105,8 @@ func (cli *Client) GetTicker(ctx context.Context, id string) (*Ticker, error) {
 
 // GetTickers get tickers
 func (cli *Client) GetTickers(ctx context.Context) ([]*Ticker, error) {
-	req, err := cli.newRequest(ctx, http.MethodGet, "/ticker", []byte(""))
+	// yeah I like hard code
+	req, err := cli.newRequest(ctx, http.MethodGet, "/ticker/?limit=1000", []byte(""))
 	if err != nil {
 		return nil, err
 	}
