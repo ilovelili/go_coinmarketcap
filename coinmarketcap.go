@@ -105,11 +105,15 @@ func (cli *Client) GetTicker(ctx context.Context, id string) (*Ticker, error) {
 
 // GetTickers get tickers
 func (cli *Client) GetTickers(ctx context.Context) ([]*Ticker, error) {
-	// yeah I like hard code
-	req, err := cli.newRequest(ctx, http.MethodGet, "/ticker/?limit=1000", []byte(""))
+	req, err := cli.newRequest(ctx, http.MethodGet, "/ticker", []byte(""))
 	if err != nil {
 		return nil, err
 	}
+
+	q := req.URL.Query()
+	// yeah I like hard code
+	q.Add("limit", "1000")
+	req.URL.RawQuery = q.Encode()
 
 	res, err := cli.HTTPClient.Do(req)
 	if err != nil {
@@ -131,7 +135,9 @@ func (cli *Client) GetTickers(ctx context.Context) ([]*Ticker, error) {
 func (cli *Client) newRequest(ctx context.Context, method, endpoint string, body []byte) (*http.Request, error) {
 	u := *cli.BaseURL
 	u.Path = path.Join(cli.BaseURL.Path, endpoint)
+	fmt.Println(u.String())
 	req, err := http.NewRequest(method, u.String(), bytes.NewBuffer(body))
+
 	if err != nil {
 		return nil, err
 	}
@@ -156,3 +162,4 @@ func toTime(unixtimestamp string) time.Time {
 	i, _ := strconv.ParseInt(unixtimestamp, 10, 64)
 	return time.Unix(i, 0)
 }
+
