@@ -110,11 +110,6 @@ func (cli *Client) GetTickers(ctx context.Context) ([]*Ticker, error) {
 		return nil, err
 	}
 
-	q := req.URL.Query()
-	// yeah I like hard code
-	q.Add("limit", "1000")
-	req.URL.RawQuery = q.Encode()
-
 	res, err := cli.HTTPClient.Do(req)
 	if err != nil {
 		return nil, err
